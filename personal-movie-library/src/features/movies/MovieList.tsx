@@ -20,13 +20,21 @@ export function MovieList() {
       );
     });
   }
-  
+
+  const handleOnDelete = (id: number) => {
+    setMovies((prevMovies) => {
+      if (!prevMovies) return prevMovies;
+      return prevMovies.filter((movie) => movie.id !== id);
+    });
+  }
   
   return (
     <div>
       <h1>Movie List:</h1>
         {!movies && <p>Loading...</p>}
-        {movies?.map(movie => <MovieCard key={movie.id} movie={movie} onToggleWatched={handleToggleWatched} />)}
+        {movies?.map(movie => <MovieCard key={movie.id} movie={movie} 
+        onToggleWatched={handleToggleWatched}
+        onDelete={handleOnDelete} />)}
     </div>
   );
 }
