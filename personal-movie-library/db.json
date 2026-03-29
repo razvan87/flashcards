@@ -5,7 +5,7 @@
       "title": "Inception",
       "director": "Christopher Nolan",
       "year": 2010,
-      "watched": true
+      "watched": false
     },
     {
       "id": 2,
@@ -19,7 +19,7 @@
       "title": "The Matrix",
       "director": "The Wachowskis",
       "year": 1999,
-      "watched": true
+      "watched": false
     }
   ]
 }
