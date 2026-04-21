@@ -100,7 +100,9 @@ router.get("/categories", getCategories); // USER + ADMIN can GET categories
  *                   items:
  *                     $ref: '#/components/schemas/Card'
  */
-router.get("/", authMiddleware, roleMiddleware("ADMIN", "USER"), getCards); // USER + ADMIN  can GET
+// router.get("/", authMiddleware, roleMiddleware("ADMIN", "USER"), getCards); // USER + ADMIN  can GET
+router.get("/", getCards); // USER + ADMIN  can GET
+
 
 /**
  * @swagger
