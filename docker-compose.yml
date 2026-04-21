@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db   # keep data persistent
+
+  mongo-express:
+    image: mongo-express:1.0.2
+    container_name: mongo-express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: admin
+      ME_CONFIG_RETRY_INTERVAL: 2000
+      ME_CONFIG_RETRY_ATTEMPTS: 20
+    depends_on:
+      - mongo  
+
+  backend:
+    build: ./backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads_data:/usr/src/app/uploads   # keep uploaded files persistent
+      - ./backend:/usr/src/app   # container (hot reload)
+      - /usr/src/app/node_modules   # avoid overwriting node_modules
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/flashcards
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
+  uploads_data:
