@@ -1,0 +1,77 @@
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    z-index: 999;
+  }
+  
+  .modal {
+    width: 420px;
+    max-width: 92%;
+  
+    background: white;
+    border-radius: 14px;
+  
+    padding: 24px;
+  
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  
+    margin-bottom: 18px;
+  }
+  
+  .title {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  
+  .close {
+    border: none;
+    background: transparent;
+    font-size: 22px;
+    cursor: pointer;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .input {
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  
+  .button {
+    border: none;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: pointer;
+  
+    background: #111827;
+    color: white;
+    font-weight: 600;
+  }
+  
+  .button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .error {
+    color: #dc2626;
+    font-size: 14px;
+  }

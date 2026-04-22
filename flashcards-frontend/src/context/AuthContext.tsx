@@ -1,16 +1,31 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useEffect } from "react";
+import { getToken, setToken, removeToken, parseJwt } from "../utils/token";
+import {loginRequest, registerRequest} from "../components/auth/authApi";
+
+type Role = "USER" | "ADMIN";
 
 type User = {
   username: string;
-  role: "USER" | "ADMIN";
+  role: Role;
 };
 
 type AuthContextType = {
-  user: User | null;
-  loginDemo: () => void;
-  loginAdmin: () => void;
-  logout: () => void;
-};
+    user: User | null;
+    loading: boolean;
+  
+    login: (
+      username: string,
+      password: string
+    ) => Promise<void>;
+  
+    register: (
+      username: string,
+      password: string
+    ) => Promise<void>;
+  
+    logout: () => void;
+  };
+  
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -20,22 +35,77 @@ export function AuthProvider({
   children: React.ReactNode;
 }) {
   const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    const initializeSession = async () => {
+      await restoreSession();
+    };
+  
+    initializeSession();
+  }, []);
 
-  function loginDemo() {
+  function restoreSession() {
+    const token = getToken();
+
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+
+    const decoded = parseJwt(token);
+
+    if (!decoded) {
+      removeToken();
+      setLoading(false);
+      return;
+    }
+
     setUser({
-      username: "razvan",
-      role: "USER",
+      username: decoded.username,
+      role: decoded.role,
+    });
+
+    setLoading(false);
+  }
+
+  useEffect(() => {
+    restoreSession();
+  }, []);
+
+  async function login(
+    username: string,
+    password: string
+  ) {
+    const data =
+      await loginRequest(
+        username,
+        password
+      );
+
+    setToken(data.token);
+
+    const decoded =
+      parseJwt(data.token);
+
+    setUser({
+      username: decoded.username,
+      role: decoded.role,
     });
   }
 
-  function loginAdmin() {
-    setUser({
-      username: "admin",
-      role: "ADMIN",
-    });
+  async function register(
+    username: string,
+    password: string
+  ) {
+    await registerRequest(
+      username,
+      password
+    );
   }
 
   function logout() {
+    removeToken();
     setUser(null);
   }
 
@@ -43,8 +113,9 @@ export function AuthProvider({
     <AuthContext.Provider
       value={{
         user,
-        loginDemo,
-        loginAdmin,
+        loading, 
+        login,
+        register,
         logout,
       }}
     >
