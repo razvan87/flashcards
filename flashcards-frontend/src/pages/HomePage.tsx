@@ -16,7 +16,7 @@ export default function HomePage() {
 
       setCards(result.data);
     } catch (err) {
-      setError("Could not load cards");
+      setError(`Could not load cards. ${err instanceof Error ? err.message : "Unknown error"}`);
     } finally {
       setLoading(false);
     }

@@ -1,14 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
 import './App.css'
 import HomePage from './pages/HomePage'
+import { AuthProvider } from './context/AuthContext'
+import Navbar from './components/cards/Navbar'
 
 function App() {
   return (
     <>
-      <HomePage />
+      <AuthProvider>
+        <Navbar />
+        <HomePage />
+      </AuthProvider>
     </>
   )
 }
