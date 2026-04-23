@@ -1,0 +1,144 @@
+.carousel {
+    position: relative;
+  
+    min-height: 78vh;
+  
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    padding: 40px;
+  
+    border-radius: 20px;
+  
+    overflow: hidden;
+  
+    background: linear-gradient(
+      135deg,
+      #111827,
+      #1f2937,
+      #374151
+    );
+  
+    color: white;
+  }
+  
+  .slide {
+    max-width: 820px;
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .icon {
+    display: block;
+    font-size: 60px;
+    margin-bottom: 20px;
+  }
+  
+  .slide h1 {
+    font-size: 54px;
+    line-height: 1.1;
+    margin-bottom: 18px;
+  }
+  
+  .slide p {
+    font-size: 22px;
+    color: #d1d5db;
+    margin-bottom: 30px;
+  }
+  
+  .slide button {
+    padding: 14px 28px;
+    border: none;
+    border-radius: 12px;
+  
+    background: white;
+    color: #111827;
+  
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+  
+    transition: 0.2s;
+  }
+  
+  .slide button:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* arrows */
+  
+  .arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+  
+    width: 52px;
+    height: 52px;
+  
+    border: none;
+    border-radius: 50%;
+  
+    background: rgba(255,255,255,0.18);
+    color: white;
+  
+    font-size: 34px;
+    cursor: pointer;
+  
+    transition: 0.2s;
+  }
+  
+  .arrow:hover {
+    background: rgba(255,255,255,0.3);
+  }
+  
+  .left {
+    left: 20px;
+  }
+  
+  .right {
+    right: 20px;
+  }
+  
+  /* dots */
+  
+  .dots {
+    position: absolute;
+    bottom: 26px;
+  
+    display: flex;
+    gap: 10px;
+  }
+  
+  .dot {
+    width: 12px;
+    height: 12px;
+  
+    border-radius: 50%;
+    border: none;
+  
+    background: rgba(255,255,255,0.35);
+    cursor: pointer;
+  }
+  
+  .active {
+    background: white;
+  }
+  
+  /* responsive */
+  
+  @media (max-width: 768px) {
+    .slide h1 {
+      font-size: 36px;
+    }
+  
+    .slide p {
+      font-size: 18px;
+    }
+  
+    .arrow {
+      width: 42px;
+      height: 42px;
+      font-size: 28px;
+    }
+  }

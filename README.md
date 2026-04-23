@@ -76,23 +76,91 @@ english-flashcards/
 │   └── vite.config.ts
 └── docker-compose.yml
 
+```
 
-## 🛠️ Getting Started
+## Card Structure
 
-### 1. Prerequisites
-* **Node.js** (v18+)
-* **Docker** (pentru Baza de Date)
-* **pnpm** (sau npm/yarn)
+**Each flashcard contains:**
 
-### 2. Start the Backend
-Urmează instrucțiunile din folderul `backend/` sau rulează:
+    text → The word or phrase
 
-```bash
-# Pornește containerele în fundal
-docker-compose up -d
+    level → CEFR level (A1, A2, B1, B2, C1, C2)
 
-# Dacă este prima rulare, populează baza de date cu semințe (seeds)
-docker exec -it backend node seed/seed.js
+    imageUrl → Optional image
+
+    meanings[] → Array of meanings:
+
+    partOfSpeech → noun | verb | adjective | adverb | phrase
+
+    definition
+
+    example
+
+    category → Optional predefined category
+
+    timestamps → Automatically generated
+
+
+## **Start the MongoDB & Backend**
+
+From the project root, run:
+    `docker-compose up --build`
+
+**This will start:**
+
+    MongoDB → port 27017
+
+    Mongo Express → port 8081
+
+    Backend (Node.js/Express) → port 3000
+
+To check if the container is up and running please use command:
+    `docker ps`    
+
+To stop the docker process please use command:
+    `docker-compose down`    
+
+
+## **Access the MongoDB:**
+
+1. You can access the DB via Monga Express UI: 
+
+    **Open in browser:**
+    http://localhost:8081
+
+        Login:
+            user: admin
+            password: admin
+
+2. Or connecting to the mongo container, commands:
+
+    ```text
+    "docker exec -it mongo mongosh"
+
+    "use flashcards"
+
+    "db.cards.find().pretty()"
+
+    ```
+
+## **Access the backend container:**
+
+Backend already runs in Docker via `docker-compose`.
+
+To connect to the backend container please use:
+
+    docker exec -it backend sh
+
+Hot reload enabled via volume mapping.
+`Local changes in backend/src/ will automatically reload backend (nodemon).
+`
+
+**Run the seeds**    
+
+If you want to have a some minimal data into mongo db and displayed in frontend, please run the following command that will inject into mongo an **admin user (user: admin, pass: admin123)** and some cards for testing purposes.
+
+    docker exec -it backend node seed/seed.js   
+
 
 ### 3. Start the Frontend
 
