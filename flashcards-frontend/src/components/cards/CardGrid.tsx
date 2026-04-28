@@ -3,18 +3,23 @@ import CardItem from "./CardItem";
 import type { Card } from "../../types/card";
 import { fetchCards } from "../../api/cardApi";
 import styles from "./CardGrid.module.css";
+import Pagination from "./Pagination";
 
 export default function CardGrid() {
   const [cards, setCards] = useState<Card[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  async function loadCards() {
+  async function loadCards(page: number = 1) {
     try {
       setLoading(true);
       setError("");
-      const result = await fetchCards();
+      const result = await fetchCards(page);
       setCards(result.data);
+      setCurrentPage(result.page);
+      setTotalPages(result.pages);
     }catch (err) {
       setError(`Could not load cards. ${err instanceof Error ? err.message : "Unknown error"}`);
     } finally {
@@ -23,8 +28,8 @@ export default function CardGrid() {
   }
 
   useEffect(() => {
-    loadCards();
-  }, []);
+    loadCards(currentPage);
+  }, [currentPage]);
 
   if (loading) {
     return (
@@ -42,10 +47,17 @@ export default function CardGrid() {
 
 
   return (
-    <div className={styles.grid}>
-      {cards.map((card) => (
-        <CardItem key={card._id} card={card} />
-      ))}
-    </div>
+    <>
+      <div className={styles.grid}>
+        {cards.map((card) => (
+          <CardItem key={card._id} card={card} />
+        ))}
+      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+      />
+    </>  
   );
 }
