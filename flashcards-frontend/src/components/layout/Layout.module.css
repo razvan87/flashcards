@@ -1,0 +1,21 @@
+.wrapper {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+  
+    min-height: calc(100vh - 72px);
+  }
+  
+  .main {
+    padding: 28px;
+  }
+  
+  /* tablet / mobile */
+  @media (max-width: 900px) {
+    .wrapper {
+      grid-template-columns: 1fr;
+    }
+  
+    .main {
+      padding: 18px;
+    }
+  }
