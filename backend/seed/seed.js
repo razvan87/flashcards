@@ -47,6 +47,7 @@ async function seed() {
         imageUrl: `/uploads/${card.imageUrl}`,
         meanings: card.meanings,
         category: card.category,
+        favorite: card.favorite || false,
       });
 
       console.log(`Card "${card.text}" inserted`);

@@ -25,7 +25,7 @@ const allowedOrigins = [
         callback(new Error("Not allowed by CORS")); // block others
       }
     },
-    methods: ["GET", "POST", "PUT", "DELETE"]
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
   }));
 
 // middleware to read JSONgit 

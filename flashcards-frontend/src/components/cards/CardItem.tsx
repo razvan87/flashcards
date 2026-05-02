@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./CardItem.module.css";
 import type { Card } from "../../types/card";
+import { updateCard } from "../../api/cardApi";
 
 type Props = {
   card: Card;
@@ -9,7 +10,7 @@ type Props = {
 
 export default function CardItem({card,isAdmin = false}: Props) {
   const [flipped, setFlipped] = useState(false);
-  const [favorite, setFavorite] = useState(false);
+  const [favorite, setFavorite] = useState(card.favorite);
   const [learned, setLearned] = useState(false);
 
   function speakWord(e: React.MouseEvent) {
@@ -20,9 +21,18 @@ export default function CardItem({card,isAdmin = false}: Props) {
     speechSynthesis.speak(utterance);
   }
 
-  function toggleFavorite(e: React.MouseEvent) {
+  async function toggleFavorite(e: React.MouseEvent) {
     e.stopPropagation();
-    setFavorite((prev) => !prev);
+  
+    const newValue = !favorite;
+    setFavorite(newValue);
+  
+    try {
+      const updated = await updateCard(card._id, { favorite: newValue });
+      setFavorite(updated.favorite); // sync with backend
+    } catch (error) {
+      setFavorite(!newValue); // rollback
+    }
   }
 
   function toggleLearned(e: React.MouseEvent) {

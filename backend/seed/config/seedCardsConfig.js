@@ -10,7 +10,8 @@ export const seedCards = [
         example: "The dog is friendly"
       }
     ],
-    category: "Animals"
+    category: "Animals",
+    favorite: true
   },
   {
     text: "run",

@@ -1,9 +1,8 @@
 import express from 'express';
-import { createCard, getCards, getCategories } from '../controllers/cardController.js';
+import { createCard, getCards, getCategories, updateCard } from '../controllers/cardController.js';
 import { authMiddleware} from '../middleware/authMiddleware.js';
 import { roleMiddleware } from '../middleware/roleMiddleware.js';
 import { upload } from '../middleware/uploadMiddleware.js';
-
 
 const router = express.Router();
 
@@ -141,11 +140,12 @@ router.get("/", getCards); // USER + ADMIN  can GET
 router.post("/", authMiddleware, roleMiddleware("ADMIN"), upload.single("image"), createCard); // Only ADMIN
 
 
-router.route("/:id", authMiddleware, roleMiddleware("ADMIN"))
+router.route("/:id")
 .get((req, res) => {
     res.status(501).json({ message: `Not implemented! Get request with id ${req.params.id}`});
 })
-.put((req, res) => {
+.patch(authMiddleware, roleMiddleware("ADMIN", "USER"), updateCard)
+.put(authMiddleware, roleMiddleware("ADMIN"), (req, res) => {
   res.status(501).json({ message: `Not implemented! Put request with id ${req.params.id}`});
 })
 .delete((req, res) => {

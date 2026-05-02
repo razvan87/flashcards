@@ -17,4 +17,5 @@ export interface Meaning {
     category?: Category;
     createdAt: string;
     updatedAt: string;
+    favorite: boolean;
   }

@@ -2,23 +2,52 @@ import type { Card } from "../types/card";
 import { API_BASE_URL } from "../config/api";
 import { getToken } from "../utils/token";
 
+type FetchCardsParams = {
+  page?: number;
+  limit?: number;
+  favorite?: boolean;
+  category?: string;
+  search?: string;
+};
+
 type CardsResponse = {
   data: Card[];
   page: number;
   pages: number;
 };
 
-export async function fetchCards(
+export async function fetchCards({
   page = 1,
-  limit = 9
-): Promise<CardsResponse> {
+  limit = 9,
+  favorite,
+  category,
+  search,
+}: FetchCardsParams = {}): Promise<CardsResponse> {
   const token = getToken();
 
+  const params = new URLSearchParams();
+
+  params.append("page", page.toString());
+  params.append("limit", limit.toString());
+
+  if (favorite !== undefined) {
+    params.append("favorite", String(favorite));
+  }
+
+  if (category && category !== "All") {
+    params.append("category", category);
+  }
+
+  if (search) {
+    params.append("search", search);
+  }
+
   const response = await fetch(
-    `http://localhost:3000/api/cards?page=${page}&limit=${limit}`, {
+    `http://localhost:3000/api/cards?${params.toString()}`,
+    {
       headers: {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
     }
   );
@@ -64,4 +93,21 @@ export async function createCard(
   }
 
   return response.json();
+}
+
+export async function updateCard(cardId: string, updates: Partial<Card>) {
+  const token = getToken();
+
+  const res = await fetch(`${API_BASE_URL}/api/cards${cardId}`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(updates),
+  });
+
+  if (!res.ok) throw new Error("Update failed");
+
+  return res.json();
 }

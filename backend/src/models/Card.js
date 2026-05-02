@@ -46,6 +46,11 @@ const cardSchema = new mongoose.Schema(
       validate: [(v) => v.length > 0, "At least one meaning is required"],
     },
 
+    favorite: {
+      type: Boolean,
+      default: false,
+    },
+
     category: {
         type: String,
         enum: [

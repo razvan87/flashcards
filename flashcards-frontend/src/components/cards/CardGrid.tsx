@@ -1,40 +1,28 @@
-import { useState, useEffect } from "react";
 import CardItem from "./CardItem";
 import type { Card } from "../../types/card";
-import { fetchCards } from "../../api/cardApi";
 import styles from "./CardGrid.module.css";
 import Pagination from "./Pagination";
 
-export default function CardGrid() {
-  const [cards, setCards] = useState<Card[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+type Props = {
+  cards: Card[];
+  loading: boolean;
+  error: string;
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+};
 
-  async function loadCards(page: number = 1) {
-    try {
-      setLoading(true);
-      setError("");
-      const result = await fetchCards(page);
-      setCards(result.data);
-      setCurrentPage(result.page);
-      setTotalPages(result.pages);
-    }catch (err) {
-      setError(`Could not load cards. ${err instanceof Error ? err.message : "Unknown error"}`);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    loadCards(currentPage);
-  }, [currentPage]);
+export default function CardGrid({
+  cards,
+  loading,
+  error,
+  currentPage,
+  totalPages,
+  onPageChange,
+}: Props) {
 
   if (loading) {
-    return (
-      <h2>Loading cards...</h2>
-    );
+    return <h2>Loading cards...</h2>;
   }
 
   if (error) {
@@ -44,7 +32,6 @@ export default function CardGrid() {
   if (cards.length === 0) {
     return <h2>No cards found.</h2>;
   }
-
 
   return (
     <>
@@ -56,8 +43,8 @@ export default function CardGrid() {
       <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
-        onPageChange={setCurrentPage}
+        onPageChange={onPageChange}
       />
-    </>  
+    </>
   );
 }
