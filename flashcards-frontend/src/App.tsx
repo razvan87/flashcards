@@ -1,4 +1,5 @@
 import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import CardsPage from './pages/CardsPage'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/navbar/Navbar'
@@ -10,8 +11,10 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <Navbar />
-        <AppContent />
+        <BrowserRouter>
+          <Navbar />
+          <AppContent />
+        </BrowserRouter>  
       </AuthProvider>
     </>
   )
@@ -28,7 +31,11 @@ function AppContent() {
 
   return (
     <Layout>
-      <CardsPage />
+      <Routes>
+        <Route path="/" element={<CardsPage />} />
+        <Route path="/favorites" element={<CardsPage />} />
+        <Route path="/learned" element={<CardsPage />} />
+      </Routes>
     </Layout>
   );
 }

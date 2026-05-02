@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import CardGrid from "../components/cards/CardGrid";
 import { fetchCards } from "../api/cardApi";
 import type { Card } from "../types/card";
+import { useLocation } from "react-router-dom";
 
 export default function CardsPage() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -11,7 +12,14 @@ export default function CardsPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const location = useLocation();
+
+  const isFavorites = location.pathname === "/favorites";
+
+  // 🔥 reset page on route change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [location.pathname]);
 
   useEffect(() => {
     async function loadCards() {
@@ -21,7 +29,7 @@ export default function CardsPage() {
   
         const result = await fetchCards({
           page: currentPage,
-          favorite: showFavoritesOnly ? true : undefined,
+          favorite: isFavorites ? true : undefined,
         });
   
         setCards(result.data);
@@ -34,20 +42,10 @@ export default function CardsPage() {
     }
   
     loadCards();
-  }, [currentPage, showFavoritesOnly]);
+  }, [currentPage, location.pathname]);
 
   return (
     <div>
-      {/* Sidebar / Filter button */}
-      <button 
-        onClick={() => {
-          setShowFavoritesOnly(prev => !prev);
-          setCurrentPage(1);
-        }}
-        >
-        {showFavoritesOnly ? "⭐ Showing Favorites" : "☆ Show Favorites"}
-      </button>
-
       <CardGrid
         cards={cards}
         loading={loading}

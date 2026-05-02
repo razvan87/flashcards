@@ -43,7 +43,7 @@ export async function fetchCards({
   }
 
   const response = await fetch(
-    `http://localhost:3000/api/cards?${params.toString()}`,
+    `${API_BASE_URL}/api/cards?${params.toString()}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -98,7 +98,7 @@ export async function createCard(
 export async function updateCard(cardId: string, updates: Partial<Card>) {
   const token = getToken();
 
-  const res = await fetch(`${API_BASE_URL}/api/cards${cardId}`, {
+  const res = await fetch(`${API_BASE_URL}/api/cards/${cardId}`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

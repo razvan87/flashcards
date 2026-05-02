@@ -20,25 +20,36 @@
     gap: 12px;
   }
   
-  .menu button {
-    text-align: left;
+  .menu button,
+.menu a {
+  display: block;
+  text-align: left;
+
+  padding: 12px 14px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #f3f4f6;
+  color: #111827;
+
+  font-size: 15px;
+  cursor: pointer;
+
+  text-decoration: none; /* 👈 important for links */
+
+  transition: all 0.2s ease;
+}
   
-    padding: 12px 14px;
-  
-    border: none;
-    border-radius: 10px;
-  
-    background: #f3f4f6;
-    color: #111827;
-  
-    font-size: 15px;
-    cursor: pointer;
-  
-    transition: 0.2s;
-  }
-  
-  .menu button:hover {
+  .menu button:hover,
+  .menu a:hover {
     background: #e5e7eb;
+  }
+
+  .active {
+    background: #dbeafe;
+    color: #1d4ed8;
+    font-weight: 600;
   }
   
   .primary {
@@ -64,7 +75,8 @@
       flex-wrap: wrap;
     }
   
-    .menu button {
+    .menu button,
+    .menu a {
       text-align: center;
     }
   }
