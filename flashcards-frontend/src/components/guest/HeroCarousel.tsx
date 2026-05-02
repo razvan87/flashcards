@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import styles from "./HeroCarousel.module.css";
+import LoginModal from "../auth/LoginModal";
+import RegisterModal from "../auth/RegisterModal";
 
 const slides = [
   {
@@ -24,6 +26,9 @@ const slides = [
 
 export default function HeroCarousel() {
   const [current, setCurrent] = useState(0);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+
 
   function nextSlide() {
     setCurrent((prev) =>
@@ -45,7 +50,30 @@ export default function HeroCarousel() {
     return () => clearInterval(timer);
   }, []);
 
+  const handleOpenLoginModal = () => {
+    if (slides[current].button === "Login") {
+      setIsLoginModalOpen(true);
+    }
+  }; 
+
+
+  const handleCloseLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleOpenRegisterModal = () => {
+    if (slides[current].button === "Create Free Account") {
+      setIsRegisterModalOpen(true);
+    }
+  };
+
+  const handleCloseRegisterModal = () => {
+    setIsRegisterModalOpen(false);
+  };
+
+
   return (
+    <>
     <section className={styles.carousel}>
       <div className={styles.slide}>
         <span className={styles.icon}>
@@ -56,7 +84,14 @@ export default function HeroCarousel() {
 
         <p>{slides[current].text}</p>
 
-        <button>
+        <button onClick={() => {
+          if (slides[current].button === "Login") {
+            handleOpenLoginModal();
+          }
+          if (slides[current].button === "Create Free Account") {
+            handleOpenRegisterModal();
+          }
+        }}>
           {slides[current].button}
         </button>
       </div>
@@ -93,5 +128,15 @@ export default function HeroCarousel() {
         ))}
       </div>
     </section>
+
+     {/* Conditionally render the LoginModal */}
+     {isLoginModalOpen && (
+      <LoginModal onClose={handleCloseLoginModal} />
+    )}
+          {/* Conditionally render the RegisterModal */}
+          {isRegisterModalOpen && (
+        <RegisterModal onClose={handleCloseRegisterModal} />
+      )}
+    </>
   );
 }
