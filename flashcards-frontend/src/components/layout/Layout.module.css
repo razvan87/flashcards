@@ -5,9 +5,6 @@
     min-height: calc(100vh - 72px);
   }
   
-  .main {
-    padding: 28px;
-  }
   
   /* tablet / mobile */
   @media (max-width: 900px) {

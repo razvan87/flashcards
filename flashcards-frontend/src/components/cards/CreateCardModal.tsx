@@ -73,7 +73,7 @@ export default function CreateCardModal({
 
       window.location.reload();
     } catch (error) {
-      alert("Failed creating card");
+      alert(`Failed creating card ${error}`);
     } finally {
       setLoading(false);
     }

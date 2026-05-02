@@ -1,3 +1,5 @@
+import styles from "./Pagination.module.css";
+
 type Props = {
     currentPage: number;
     totalPages: number;
@@ -12,9 +14,11 @@ type Props = {
     if (totalPages <= 1) return null;
   
     return (
-      <div>
+      <div className={styles.pagination}>
         {currentPage > 1 && (
-          <button onClick={() => onPageChange(currentPage - 1)}>
+          <button 
+            className={`${styles.button} ${styles.navButton}`}
+            onClick={() => onPageChange(currentPage - 1)}>
             Previous
           </button>
         )}
@@ -22,14 +26,16 @@ type Props = {
         {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
           <button
             key={page}
-            onClick={() => onPageChange(page)}
-          >
+            className={`${styles.button} ${currentPage === page ? styles.active : ""}`}
+            onClick={() => onPageChange(page)}>
             {page}
           </button>
         ))}
   
         {currentPage < totalPages && (
-          <button onClick={() => onPageChange(currentPage + 1)}>
+          <button 
+            className={`${styles.button} ${styles.navButton}`}
+            onClick={() => onPageChange(currentPage + 1)}>
             Next
           </button>
         )}
