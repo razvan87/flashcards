@@ -1,17 +1,19 @@
 import { useState } from "react";
 import styles from "./CardItem.module.css";
 import type { Card } from "../../types/card";
-import { updateCard } from "../../api/cardApi";
+import { updateCard, deleteCard } from "../../api/cardApi";
+import CreateCardModal from "./CreateCardModal";
 
 type Props = {
   card: Card;
   isAdmin?: boolean;
 };
 
-export default function CardItem({card,isAdmin = false}: Props) {
+export default function CardItem({ card, isAdmin = false }: Props) {
   const [flipped, setFlipped] = useState(false);
   const [favorite, setFavorite] = useState(card.favorite);
   const [learned, setLearned] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   function speakWord(e: React.MouseEvent) {
     e.stopPropagation();
@@ -23,14 +25,15 @@ export default function CardItem({card,isAdmin = false}: Props) {
 
   async function toggleFavorite(e: React.MouseEvent) {
     e.stopPropagation();
-  
+
     const newValue = !favorite;
     setFavorite(newValue);
-  
+
     try {
       const updated = await updateCard(card._id, { favorite: newValue });
       setFavorite(updated.favorite); // sync with backend
     } catch (error) {
+      alert(`Failed to update favorite status for "${card.text}" with error: ${error}`);
       setFavorite(!newValue); // rollback
     }
   }
@@ -42,20 +45,26 @@ export default function CardItem({card,isAdmin = false}: Props) {
 
   function handleEdit(e: React.MouseEvent) {
     e.stopPropagation();
-    alert(`Edit card: ${card.text}`);
+    setShowEditModal(true);
   }
 
-  function handleDelete(e: React.MouseEvent) {
+  async function handleDelete(e: React.MouseEvent) {
     e.stopPropagation();
-    alert(`Delete card: ${card.text}`);
+  
+    if (!window.confirm(`Delete "${card.text}"?`)) return;
+  
+    try {
+      await deleteCard(card._id);
+      window.location.reload();
+    } catch {
+      alert("Delete failed");
+    }
   }
 
   return (
     <div className={styles.wrapper}>
       <div
-        className={`${styles.flipCard} ${
-          flipped ? styles.flipped : ""
-        }`}
+        className={`${styles.flipCard} ${flipped ? styles.flipped : ""}`}
         onClick={() => setFlipped(!flipped)}
       >
         <div className={styles.cardInner}>
@@ -71,10 +80,7 @@ export default function CardItem({card,isAdmin = false}: Props) {
 
             <h4>{card.text}</h4>
 
-            <button
-              className={styles.speakBtn}
-              onClick={speakWord}
-            >
+            <button className={styles.speakBtn} onClick={speakWord}>
               🔊
             </button>
           </div>
@@ -105,14 +111,24 @@ export default function CardItem({card,isAdmin = false}: Props) {
 
               {isAdmin && (
                 <>
-                  <button onClick={handleEdit}>✏️</button>
-                  <button onClick={handleDelete}>🗑️</button>
+                  <button onClick={handleEdit} className={styles.editBtn}>
+                    ✏️ Edit
+                  </button>
+                  <button onClick={handleDelete} className={styles.deleteBtn}>
+                    🗑 Delete
+                  </button>
                 </>
               )}
             </div>
           </div>
         </div>
       </div>
+      {showEditModal && (
+      <CreateCardModal
+        initialData={card}
+        onClose={() => setShowEditModal(false)}
+      />
+    )}
     </div>
   );
 }

@@ -1,5 +1,5 @@
 import express from 'express';
-import { createCard, getCards, getCategories, updateCard } from '../controllers/cardController.js';
+import { createCard, deleteCard, getCards, getCategories, updateCard, editCard } from '../controllers/cardController.js';
 import { authMiddleware} from '../middleware/authMiddleware.js';
 import { roleMiddleware } from '../middleware/roleMiddleware.js';
 import { upload } from '../middleware/uploadMiddleware.js';
@@ -145,11 +145,7 @@ router.route("/:id")
     res.status(501).json({ message: `Not implemented! Get request with id ${req.params.id}`});
 })
 .patch(authMiddleware, roleMiddleware("ADMIN", "USER"), updateCard)
-.put(authMiddleware, roleMiddleware("ADMIN"), (req, res) => {
-  res.status(501).json({ message: `Not implemented! Put request with id ${req.params.id}`});
-})
-.delete((req, res) => {
-  res.status(501).json({ message: "Not implemented" });
-});
+.put(authMiddleware, roleMiddleware("ADMIN"), upload.single("image"), editCard) // Only ADMIN can edit, USER can only update (e.g. PATCH for favorite or learned status)
+.delete(authMiddleware, roleMiddleware("ADMIN"), deleteCard)
 
 export default router;

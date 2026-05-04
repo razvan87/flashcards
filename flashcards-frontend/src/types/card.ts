@@ -23,6 +23,7 @@ export interface Meaning {
     text: string;
     imageUrl?: string;
     level: CEFRLevel;
+    partOfSpeech: PartOfSpeech;
     meanings: Meaning[];
     category?: Category;
     createdAt: string;

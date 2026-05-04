@@ -2,6 +2,7 @@ import CardItem from "./CardItem";
 import type { Card } from "../../types/card";
 import styles from "./CardGrid.module.css";
 import Pagination from "./Pagination";
+import { useAuth } from "../../hooks/useAuth";
 
 type Props = {
   cards: Card[];
@@ -20,6 +21,12 @@ export default function CardGrid({
   totalPages,
   onPageChange,
 }: Props) {
+  const { user } = useAuth();
+  const isAdmin = user?.role === "ADMIN";
+  
+  if (!user) {
+    return <h2>Please log in to view your cards.</h2>;
+  }
 
   if (loading) {
     return <h2>Loading cards...</h2>;
@@ -37,7 +44,7 @@ export default function CardGrid({
     <>
       <div className={styles.grid}>
         {cards.map((card) => (
-          <CardItem key={card._id} card={card} />
+          <CardItem key={card._id} card={card} isAdmin={isAdmin} />
         ))}
       </div>
       <Pagination

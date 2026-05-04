@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react";
 import styles from "./CreateCardModal.module.css";
-import { createCard, fetchCategories } from "../../api/cardApi";
+import { createCard, fetchCategories, editCard } from "../../api/cardApi";
+import type { Card } from "../../types/card";
+
 
 type Props = {
   onClose: () => void;
+  initialData?: Card;
 };
 
 export default function CreateCardModal({
   onClose,
+  initialData,
 }: Props) {
-  const [text, setText] = useState("");
-  const [level, setLevel] = useState("A1");
-  const [category, setCategory] = useState("");
-  const [partOfSpeech, setPartOfSpeech] =
-    useState("noun");
-  const [definition, setDefinition] =
-    useState("");
-  const [example, setExample] = useState("");
-  const [image, setImage] =
-    useState<File | null>(null);
-
-  const [categories, setCategories] =
-    useState<string[]>([]);
-  const [loading, setLoading] =
-    useState(false);
+  const isEdit = !!initialData;
+  const [text, setText] = useState(initialData?.text || "");
+  const [level, setLevel] = useState(initialData?.level || "A1");
+  const [category, setCategory] = useState(initialData?.category || "");
+  const [partOfSpeech, setPartOfSpeech] = useState(initialData?.meanings[0]?.partOfSpeech || "noun");
+  const [definition, setDefinition] = useState(initialData?.meanings[0]?.definition || "");
+  const [example, setExample] = useState(initialData?.meanings[0]?.example || "");
+  const [image, setImage] = useState<File | null>(null);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     async function loadCategories() {
@@ -38,9 +37,7 @@ export default function CreateCardModal({
     loadCategories();
   }, []);
 
-  async function handleSubmit(
-    e: React.FormEvent
-  ) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     try {
@@ -67,13 +64,17 @@ export default function CreateCardModal({
         formData.append("image", image);
       }
 
-      await createCard(formData);
+      if (isEdit && initialData) {
+        await editCard(initialData._id, formData);
+      } else {
+        await createCard(formData);
+      }
 
       onClose();
 
       window.location.reload();
     } catch (error) {
-      alert(`Failed creating card ${error}`);
+      alert(`Failed creating / editing card ${error}`);
     } finally {
       setLoading(false);
     }

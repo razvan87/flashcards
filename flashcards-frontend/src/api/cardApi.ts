@@ -111,3 +111,34 @@ export async function updateCard(cardId: string, updates: Partial<Card>) {
 
   return res.json();
 }
+
+export async function editCard(cardId: string, formData: FormData) {
+  const token = getToken();
+
+  const res = await fetch(`${API_BASE_URL}/api/cards/${cardId}`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
+
+  if (!res.ok) throw new Error("Edit failed");
+
+  return res.json();
+}
+
+export async function deleteCard(id: string) {
+  const token = getToken();
+
+  const res = await fetch(`${API_BASE_URL}/api/cards/${id}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error("Failed to delete card");
+  }
+}
