@@ -5,7 +5,7 @@ A modern, full-stack application for managing English vocabulary, rebuilt with *
 ---
 
 ## 🚀 Evolution: JS to React + TS
-This project has been migrated from a vanilla JavaScript implementation to a modern tech stack to ensure:
+This project has been migrated from my previous vanilla JavaScript implementation (https://github.com/razvan87/english-flashcards) to a modern tech stack to ensure:
 - **Type Safety**: Using TypeScript for fewer runtime errors.
 - **Component-Based UI**: Scalable and reusable interface with React.
 - **Speed**: Lightning-fast development with Vite.
@@ -221,3 +221,16 @@ If you want to have a some minimal data into mongo db and displayed in frontend,
 cd frontend-react
 pnpm install
 pnpm dev
+
+## **API Endpoints**
+
+### Authentication
+
+- **POST /api/auth/login**: Log in a user.
+- **POST /api/auth/register**: Register a new user.
+
+### Flashcards
+
+- **GET /api/cards**: Retrieve all flashcards.
+- **POST /api/cards**: Create a new flashcard.
+- **PATCH /api/cards/:id**: Update a flashcard by ID.
