@@ -2,6 +2,16 @@ export type CEFRLevel = "A1" | "A2" | "B1" | "B2" | "C1" | "C2";
 
 export type PartOfSpeech = "noun" | "verb" | "adjective" | "adverb" | "phrase";
 
+export type Category = 
+
+  | "All" | "Academic" | "Animals" | "Business" | "Career" | "Clothes" 
+  | "Colors" | "Communication" | "Critical Thinking" | "Emotions" 
+  | "Environment" | "Food" | "General" | "Language" | "Lifestyle" 
+  | "Nature" | "Transport" | "People" | "Personal Development" 
+  | "Philosophy" | "Psychology" | "House" | "Work" | "School" 
+  | "Sports" | "Technology" | "Weather" | "Health" | "Travel" 
+  | "Education" | "Entertainment" | "Other" | "Personal Growth";
+
 export interface Meaning {
     partOfSpeech: PartOfSpeech;
     definition: string;

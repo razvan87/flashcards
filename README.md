@@ -29,49 +29,102 @@ This project has been migrated from a vanilla JavaScript implementation to a mod
 
 ```text
 english-flashcards/
-├── backend/                # Express API (see /backend/README for details)
+├── backend/                        # Express
+│   ├── seed/
+│   │   ├── config/
+│   │   │   └── seedCardsConfig.js    
+│   │   ├── images/
+│   │   │   └── imageName.js         # contains the images 
+│   │   ├── seed.js   
+│   ├── src/
+│   │   ├── docs/
+│   │   │   └── swaggerSchemas.js    
+│   │   ├── config/
+│   │   │   ├── db.js                 # MongoDB connection
+│   │   │   └── swagger.js
+│   │   ├── controllers/
+│   │   │   ├── cardController.js
+│   │   │   └── authController.js
+│   │   ├── middleware
+│   │   │   ├── authMiddleware.js
+│   │   │   ├── roleMiddleware.js
+│   │   │   └── uploadMiddleware.js    
+│   │   ├── models/
+│   │   │   ├── Card.js
+│   │   │   └── User.js
+│   │   ├── routes/
+│   │   │   ├── cardRoutes.js
+│   │   │   └── authRoutes.js
+│   │   ├── app.js
+│   │   └── server.js
+│   ├── .env
+│   ├── Dockerfile
+│   ├── package.json
+│   └── package-lock.json
+│   └── node_modules                # Express API (see /backend/README for details)
 ├── frontend-react/         # New Vite + React + TS Project
 │   ├src/
 │   │   ├── api/
-│   │   │   ├── axios.ts
-│   │   │   ├── cardsApi.ts
-│   │   │   └── authApi.ts
+│   │   │   └── cardsApi.ts
 │   │   │
 │   │   ├── components/
+│   │   │   │
 │   │   │   ├── layout/
-│   │   │   │   ├── Navbar.tsx
-│   │   │   │   ├── Sidebar.tsx
-│   │   │   │   └── Footer.tsx
+│   │   │   │   ├── Layout.tsx
+│   │   │   │   └── Layout.moddule.css
 │   │   │   │
 │   │   │   ├── cards/
-│   │   │   │   ├── CardItem.tsx
+│   │   │   │   ├── CardGrid.module.css
 │   │   │   │   ├── CardGrid.tsx
+│   │   │   │   ├── CardItem.module.css
+│   │   │   │   ├── CardItem.tsx
+│   │   │   │   ├── CreateCardModal.module.css
+│   │   │   │   ├── CreateCardModal.tsx
+│   │   │   │   ├── Pagination.module.css
 │   │   │   │   └── Pagination.tsx
 │   │   │   │
-│   │   │   └── forms/
-│   │   │       ├── LoginForm.tsx
-│   │   │       ├── RegisterForm.tsx
-│   │   │       └── CreateCardForm.tsx
+│   │   │   ├── navbar/
+│   │   │   │   ├── Navbar.module.css
+│   │   │   │   └── Navbar.tsx
+│   │   │   │
+│   │   │   ├── sidebar/
+│   │   │   │   ├── Sidebar.module.css
+│   │   │   │   └── Sidebar.tsx
+│   │   │   │
+│   │   │   ├── guest/
+│   │   │   │   ├── HeroCarousel.module.tsx
+│   │   │   │   └── HeroCarousel.tsx
+│   │   │   │
+│   │   │   └── auth/
+│   │   │       ├── authApi.ts
+│   │   │       ├── LoginModal.tsx
+│   │   │       ├── RegisterModal.tsx
+│   │   │       └── Modal.module.css
 │   │   │
 │   │   ├── pages/
-│   │   │   ├── HomePage.tsx
-│   │   │   ├── LoginPage.tsx
-│   │   │   ├── RegisterPage.tsx
-│   │   │   └── CreateCardPage.tsx
+│   │   │   └── CardsPage.tsx
 │   │   │
 │   │   ├── context/
 │   │   │   └── AuthContext.tsx
 │   │   │
 │   │   ├── hooks/
-│   │   │   ├── useAuth.ts
-│   │   │   └── useCards.ts
+│   │   │   └── useAuth.ts
 │   │   │
 │   │   ├── types/
 │   │   │   └── card.ts
 │   │   │
+│   │   ├── config/
+│   │   │   └── api.ts
+│   │   │
+│   │   ├── utils/
+│   │   │   └── token.ts
+│   │   │
 │   │   ├── App.tsx
 │   │   └── main.tsx
 │   ├── index.html
+│   ├── package.json
+│   ├── pnpm-lock.yaml
+│   ├── eslint.config.js
 │   ├── tsconfig.json
 │   └── vite.config.ts
 └── docker-compose.yml
