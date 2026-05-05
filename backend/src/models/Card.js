@@ -51,6 +51,11 @@ const cardSchema = new mongoose.Schema(
       default: false,
     },
 
+    learned: {
+      type: Boolean,
+      default: false,
+    },
+
     category: {
         type: String,
         enum: [

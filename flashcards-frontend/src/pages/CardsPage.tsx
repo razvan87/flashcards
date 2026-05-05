@@ -15,8 +15,9 @@ export default function CardsPage() {
   const location = useLocation();
 
   const isFavorites = location.pathname === "/favorites";
+  const isLearned = location.pathname === "/learned";
 
-  // 🔥 reset page on route change
+  //reset page on route change
   useEffect(() => {
     setCurrentPage(1);
   }, [location.pathname]);
@@ -30,6 +31,7 @@ export default function CardsPage() {
         const result = await fetchCards({
           page: currentPage,
           favorite: isFavorites ? true : undefined,
+          learned: isLearned ? true : undefined,
         });
   
         setCards(result.data);

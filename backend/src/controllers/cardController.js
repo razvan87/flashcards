@@ -117,6 +117,7 @@ export const getCards = async (req, res) => {
       search,
       sort = "createdAt",
       favorite,
+      learned,
     } = req.query;
 
     const page = Number(req.query.page) || 1;
@@ -142,6 +143,11 @@ export const getCards = async (req, res) => {
     // Filter by favorite
     if (favorite !== undefined) {
       filter.favorite = favorite === "true";
+    }
+
+    // Filter by learned
+    if (learned !== undefined) {
+      filter.learned = learned === "true";
     }
 
     // Search by text (case insensitive)

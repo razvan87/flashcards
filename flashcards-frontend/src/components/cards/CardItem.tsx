@@ -31,16 +31,26 @@ export default function CardItem({ card, isAdmin = false }: Props) {
 
     try {
       const updated = await updateCard(card._id, { favorite: newValue });
-      setFavorite(updated.favorite); // sync with backend
+      setFavorite(updated.favorite);
     } catch (error) {
       alert(`Failed to update favorite status for "${card.text}" with error: ${error}`);
-      setFavorite(!newValue); // rollback
+      setFavorite(!newValue); 
     }
   }
 
-  function toggleLearned(e: React.MouseEvent) {
+  async function toggleLearned(e: React.MouseEvent) {
     e.stopPropagation();
-    setLearned((prev) => !prev);
+  
+    const newValue = !learned;
+    setLearned(newValue);
+  
+    try {
+      const updated = await updateCard(card._id, { learned: newValue });
+      setLearned(updated.learned);
+    } catch (error) {
+      alert(`Failed to update learned status  for "${card.text}" with error: ${error}`);
+      setLearned(!newValue);
+    }
   }
 
   function handleEdit(e: React.MouseEvent) {

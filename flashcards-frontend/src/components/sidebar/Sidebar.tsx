@@ -42,7 +42,7 @@ export default function Sidebar() {
 
           <Link
             to="/learned"
-            // className={location.pathname === "/learned" ? styles.active : ""}
+            className={location.pathname === "/learned" ? styles.active : ""}
           >
             Learned
           </Link>

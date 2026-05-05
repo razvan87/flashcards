@@ -6,6 +6,7 @@ type FetchCardsParams = {
   page?: number;
   limit?: number;
   favorite?: boolean;
+  learned?: boolean;
   category?: string;
   search?: string;
 };
@@ -20,6 +21,7 @@ export async function fetchCards({
   page = 1,
   limit = 9,
   favorite,
+  learned,
   category,
   search,
 }: FetchCardsParams = {}): Promise<CardsResponse> {
@@ -32,6 +34,10 @@ export async function fetchCards({
 
   if (favorite !== undefined) {
     params.append("favorite", String(favorite));
+  }
+
+  if (learned !== undefined) {
+    params.append("learned", String(learned));
   }
 
   if (category && category !== "All") {

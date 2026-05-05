@@ -29,4 +29,5 @@ export interface Meaning {
     createdAt: string;
     updatedAt: string;
     favorite: boolean;
+    learned: boolean;
   }
