@@ -17,19 +17,16 @@ export default function CardsPage() {
   const isFavorites = location.pathname === "/favorites";
   const isLearned = location.pathname === "/learned";
 
-  //reset page on route change
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [location.pathname]);
-
   useEffect(() => {
     async function loadCards() {
       try {
         setLoading(true);
         setError("");
+
+        const pageToUse  = currentPage > totalPages ? 1 : currentPage;
   
         const result = await fetchCards({
-          page: currentPage,
+          page: pageToUse,
           favorite: isFavorites ? true : undefined,
           learned: isLearned ? true : undefined,
         });
@@ -44,7 +41,7 @@ export default function CardsPage() {
     }
   
     loadCards();
-  }, [currentPage, location.pathname]);
+  }, [currentPage, totalPages, isFavorites, isLearned]);
 
   return (
     <div>

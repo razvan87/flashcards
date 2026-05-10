@@ -37,14 +37,6 @@ export function AuthProvider({
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   
-  useEffect(() => {
-    const initializeSession = async () => {
-      await restoreSession();
-    };
-  
-    initializeSession();
-  }, []);
-
   function restoreSession() {
     const token = getToken();
 
@@ -69,19 +61,11 @@ export function AuthProvider({
     setLoading(false);
   }
 
-  useEffect(() => {
-    restoreSession();
-  }, []);
-
-  async function login(
-    username: string,
-    password: string
-  ) {
-    const data =
-      await loginRequest(
+  async function login(username: string, password: string) {
+    const data = await loginRequest(
         username,
         password
-      );
+    );
 
     setToken(data.token);
 
@@ -108,6 +92,13 @@ export function AuthProvider({
     removeToken();
     setUser(null);
   }
+
+  useEffect(() => {
+    const initializeSession = async () => {
+      await restoreSession();
+    };
+    initializeSession();
+  }, []);
 
   return (
     <AuthContext.Provider
