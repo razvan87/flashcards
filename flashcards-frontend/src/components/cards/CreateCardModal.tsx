@@ -110,7 +110,7 @@ export default function CreateCardModal({
           <select
             value={level}
             onChange={(e) =>
-              setLevel(e.target.value)
+              setLevel(e.target.value as "A1" | "A2" | "B1" | "B2" | "C1" | "C2")
             }
           >
             <option>A1</option>
@@ -146,7 +146,7 @@ export default function CreateCardModal({
             value={partOfSpeech}
             onChange={(e) =>
               setPartOfSpeech(
-                e.target.value
+                e.target.value as "noun" | "verb" | "adjective" | "adverb" | "phrase"
               )
             }
           >
