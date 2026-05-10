@@ -23,7 +23,7 @@ export default function CardsPage() {
         setLoading(true);
         setError("");
 
-        const pageToUse  = currentPage > totalPages ? 1 : currentPage;
+        const pageToUse  = 1;
   
         const result = await fetchCards({
           page: pageToUse,
@@ -41,7 +41,7 @@ export default function CardsPage() {
     }
   
     loadCards();
-  }, [currentPage, totalPages, isFavorites, isLearned]);
+  }, [currentPage, isFavorites, isLearned]);
 
   return (
     <div>
