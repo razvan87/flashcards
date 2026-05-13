@@ -12,7 +12,7 @@ type Props = {
 export default function CardItem({ card, isAdmin = false }: Props) {
   const [flipped, setFlipped] = useState(false);
   const [favorite, setFavorite] = useState(card.favorite);
-  const [learned, setLearned] = useState(false);
+  const [learned, setLearned] = useState(card.learned);
   const [showEditModal, setShowEditModal] = useState(false);
 
   function speakWord(e: React.MouseEvent) {
