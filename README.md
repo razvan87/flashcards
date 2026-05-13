@@ -214,6 +214,31 @@ If you want to have a some minimal data into mongo db and displayed in frontend,
 
     docker exec -it backend node seed/seed.js   
 
+## **Use Swagger** 
+You can open the following link for swagger:
+
+    `http://localhost:3000/api-docs`\
+
+
+## **Create new card using curl**
+
+```text
+curl -X POST http://localhost:3000/api/cards \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": "run",
+    "level": "A1",
+    "imageUrl": "https://example.com/run.png",
+    "meanings": [
+      {
+        "partOfSpeech": "verb",
+        "definition": "to move quickly using your legs",
+        "example": "I run every morning"
+      }
+    ],
+    "category": "Sports"
+  }'
+  ```
 
 ### 3. Start the Frontend
 
