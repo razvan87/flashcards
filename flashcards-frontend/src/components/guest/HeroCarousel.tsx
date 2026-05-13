@@ -29,7 +29,6 @@ export default function HeroCarousel() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
 
-
   function nextSlide() {
     setCurrent((prev) =>
       prev === slides.length - 1 ? 0 : prev + 1
@@ -45,7 +44,7 @@ export default function HeroCarousel() {
   useEffect(() => {
     const timer = setInterval(() => {
       nextSlide();
-    }, 5000);
+    }, 5000); 
 
     return () => clearInterval(timer);
   }, []);
@@ -55,7 +54,6 @@ export default function HeroCarousel() {
       setIsLoginModalOpen(true);
     }
   }; 
-
 
   const handleCloseLoginModal = () => {
     setIsLoginModalOpen(false);
@@ -70,7 +68,6 @@ export default function HeroCarousel() {
   const handleCloseRegisterModal = () => {
     setIsRegisterModalOpen(false);
   };
-
 
   return (
     <>

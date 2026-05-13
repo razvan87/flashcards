@@ -22,11 +22,9 @@ export default function CardsPage() {
       try {
         setLoading(true);
         setError("");
-
-        const pageToUse  = 1;
   
         const result = await fetchCards({
-          page: pageToUse,
+          page: currentPage,
           favorite: isFavorites ? true : undefined,
           learned: isLearned ? true : undefined,
         });

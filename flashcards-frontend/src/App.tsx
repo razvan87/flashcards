@@ -1,5 +1,5 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import CardsPage from './pages/CardsPage'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/navbar/Navbar'
@@ -22,6 +22,7 @@ function App() {
 
 function AppContent() {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) return <h2>Loading...</h2>;
 
@@ -32,9 +33,9 @@ function AppContent() {
   return (
     <Layout>
       <Routes>
-        <Route path="/" element={<CardsPage />} />
-        <Route path="/favorites" element={<CardsPage />} />
-        <Route path="/learned" element={<CardsPage />} />
+        <Route path="/" element={<CardsPage key={location.pathname} />} />
+        <Route path="/favorites" element={<CardsPage key={location.pathname} />} />
+        <Route path="/learned" element={<CardsPage key={location.pathname}/>} />
       </Routes>
     </Layout>
   );

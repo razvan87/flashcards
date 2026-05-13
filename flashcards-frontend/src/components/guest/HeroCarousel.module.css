@@ -1,25 +1,18 @@
 .carousel {
     position: relative;
-  
     min-height: 78vh;
-  
     display: flex;
     justify-content: center;
     align-items: center;
-  
     padding: 40px;
-  
     border-radius: 20px;
-  
     overflow: hidden;
-  
     background: linear-gradient(
       135deg,
       #111827,
       #1f2937,
       #374151
     );
-  
     color: white;
   }
   
